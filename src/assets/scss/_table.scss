@@ -1,0 +1,38 @@
+@use "./src/assets/scss/colors" as c;
+
+table{
+    width:100%;
+    border-collapse: collapse;
+
+    th{
+        background-color: c.$lg_yellow;
+        font-size: 1.1rem;
+        border: none;
+        vertical-align: middle;
+        padding: 10px;
+        font-weight: 500;
+        border-collapse: 0;
+    }
+
+    tr:nth-child(even){
+        background-color: rgba(c.$lg_yellow,0.3);
+    }
+
+    td{
+        font-size: 1rem;
+        border: none;
+        vertical-align: middle;
+        padding: 10px;
+        text-transform: capitalize;
+    }
+
+}
+
+
+.table-hover{
+
+    tbody tr td{
+        cursor: pointer;
+    }
+
+}

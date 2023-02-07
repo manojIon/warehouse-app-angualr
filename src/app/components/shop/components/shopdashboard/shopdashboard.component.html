@@ -1,0 +1,297 @@
+<!-- breadcrumb -->
+<div class="breadcrumb text-right mb-3">
+    <h6 class="semibold">Orders</h6>
+</div>
+<!-- /breadcrumb -->    
+
+<!-- filters -->
+<div class="row">
+    <div class="col_4">
+        <div class="form_input">
+            <div class="form_field">
+                <input type="date" placeholder="Order Date" [(ngModel)]="searchDate" (ngModelChange)="modDate(searchDate)">
+            </div>
+        </div>
+    </div>
+    <div class="col_4">
+        <div class="form_input">
+            <div class="form_field">
+               <select id="orderby" [(ngModel)]="searchOrderby">
+                   <option value="">Ordered By</option>
+                   <option *ngFor="let data of orderbyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+               </select>
+            </div>
+        </div>
+    </div>
+    <div class="col_4">
+        <div class="form_input">
+            <div class="form_field">
+               <select id="Manufacturer" [(ngModel)]="searchsupp">
+                   <option value="">Manufacturer</option>
+                   <option *ngFor="let data of supplyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+               </select>
+            </div>
+        </div>
+    </div>
+    <div class="col_4">
+        <div class="form_input">
+            <div class="form_field">
+               <select id="status" [(ngModel)]="searchstatus">
+                   <option value="">Status</option>
+                   <option *ngFor="let data of orderStatus" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+               </select>
+            </div>
+        </div>
+    </div>
+    <div class="col_12">
+        <div class="text-right">
+            <button class="btn btn_skyblue" (click)="newordershow()">New Order</button>
+        </div>
+    </div>
+</div>
+<!-- end -->
+
+<!-- search table -->
+<div class="row">
+    <!-- search table  -->
+    <div class="col_12" *ngIf="ordersList">
+        <table class="mb-1 table-hover">
+            <thead>
+                <tr>
+                    <th class="text-left">Ordered Date</th>
+                    <th class="text-center">Product Name</th>
+                    <th class="text-center">Manufacturer</th>
+                    <th class="text-center">Units</th>
+                    <th class="text-center">Ordered By</th>
+                    <th class="text-center">Delivery Date<br>(Expected)</th>
+                    <th class="text-center">Priority</th>
+                    <th class="text-center" style="width:130px">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let data of ordersList | paginate: { itemsPerPage: 10, currentPage: p } | datefilter:modifiedDate | supplier:searchsupp | statusfilter:searchstatus | tablefilter:searchOrderby" (click)="vieworderDetails(data.id)">
+                    <td class="text-left">{{data.orderdate}}</td>
+                    <td class="text-center">{{data.productname}}</td>
+                    <td class="text-center">{{data.manufacture}}</td>
+                    <td class="text-center">{{data.units}}</td>
+                    <td class="text-center">{{data.orderby}}</td>
+                    <td class="text-center">{{data.deliverydate}}</td>
+                    <td class="text-center">
+                        <span class="label" [ngClass]="{'label_orange':data.priority == 'Moderate','label_red':data.priority == 'High','label_blue':data.priority == 'Low'}">{{data.priority}}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="label" [ngClass]="{'label_orange':data.status == 'Outstand', 'label_green':data.status == 'Delivered', 
+                        'label_red':data.status == 'Returned', 'label_blue':data.status == 'In Progress'}">{{data.status}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+     <!-- end -->
+     <div class="col_12 text-center" *ngIf="!ordersList || ((ordersList | datefilter:modifiedDate | supplier:searchsupp | statusfilter:searchstatus | tablefilter:searchOrderby).length <= 0 )">
+        <h4>Sorry, no data!</h4>
+    </div>
+    <!-- pagination -->
+    <div class="col_12" *ngIf="!(!ordersList || ((ordersList | datefilter:modifiedDate | supplier:searchsupp | statusfilter:searchstatus | tablefilter:searchOrderby).length <= 0 ))">
+        <div class="row" >
+            <div class="col_12 text-right">
+                <span>
+                    <pagination-controls class="desa_pagination" previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- end -->
+</div>
+
+
+<!-- models -->
+<!-- Add new order -->
+<div #mdneworder class="desa_model"> 
+    <div class="desa_model_container desa_model_lg">
+        <div class="desa_model_header">
+            <h4>New Order Details</h4>
+            <div class="desa_model_close" (click)="neworderhide()">
+                <img src="/assets/images/close-icon.svg" alt="close" title="close">
+            </div>
+        </div>
+        <form [formGroup]="addorderForm" (ngSubmit)="addorderDetails()">
+            <div class="desa_model_body">
+                <div class="row">
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                <select id="orderby" formControlName="ordertype">
+                                    <option value="">Product Name</option>
+                                    <option *ngFor="let data of productnameList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                            <select id="Supplier" formControlName="supplier">
+                                <option value="">Manufacture Name</option>
+                                <option *ngFor="let data of supplyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="number" placeholder="Unit Required" id="uitsrequired" formControlName="units">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                            <select id="orderby" formControlName="orderby">
+                                <option value="">Ordered By</option>
+                                <option *ngFor="let data of orderbyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                            <select id="priority" formControlName="priority">
+                                <option value="">Priority</option>
+                                <option *ngFor="let data of priority" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_12">
+                        <div class="form_input">
+                            <div class="form_field">
+                            <textarea name="comments" id="Comments" rows="5" placeholder="Comments" formControlName="shopcomments"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer">
+                <div class="row">
+                    <div class="col_12 text-right">
+                        <button type="submit" class="btn btn_dkblue" [disabled]="!addorderForm.valid" (click)="addorderDetails()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>    
+</div>
+
+<!-- View and edit orders -->
+<div #mdvieworder class="desa_model"> 
+    <div class="desa_model_container desa_model_lg">
+        <div class="desa_model_header">
+            <h4>View/Edit Order Details</h4>
+            <div class="desa_model_close" (click)="vieworderhide()">
+                <img src="/assets/images/close-icon.svg" alt="close" title="close">
+            </div>
+        </div>
+        <div class="desa_model_body">
+            <div class="row">
+                <div class="col_3">
+                    <p class="form-title">Product Name</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                            <select id="orderby" [(ngModel)]="viewproductname"  [disabled] = true>
+                                <option value="">Product Name</option>
+                                <option *ngFor="let data of productnameList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Units</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                            <input type="number" placeholder="Unit Required" [(ngModel)]="viewunits" [disabled] = true>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Ordered By</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                        <select id="orderby" [(ngModel)]="vieworderby" >
+                            <option value="">Ordered By</option>
+                            <option *ngFor="let data of orderbyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Manufacture Name</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                        <select id="Supplier" [(ngModel)]="viewmanufacture" [disabled] = true>
+                            <option value="">Manufacture Name</option>
+                            <option *ngFor="let data of supplyList" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Priority</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                        <select id="priority" [(ngModel)]="viewpriority">
+                            <option value="">Priority</option>
+                            <option *ngFor="let data of priority" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Status</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                           <select id="status" [(ngModel)]="viewstatus">
+                               <option value="">Status</option>
+                               <option *ngFor="let data of orderStatus" value="{{data.name}}" label="{{data.name}}">{{data.name}}</option>
+                           </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_3">
+                    <p class="form-title">Delivery Date</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                            <input type="date" placeholder="Delivery Date" [(ngModel)]="viewdeldate" (ngModelChange)="moddeldate(viewdeldate)">
+                        </div>
+                    </div>
+                </div>
+                <div class="col_12">
+                    <p class="form-title">Comments</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                        <textarea name="comments" id="Comments" rows="5" placeholder="Comments" [(ngModel)]="viewcomments"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col_12">
+                    <p class="form-title">Warehouse Comments</p>
+                    <div class="form_input">
+                        <div class="form_field">
+                        <textarea name="comments" id="Comments" rows="5" placeholder="Comments" [(ngModel)]="viewwarehousecomments" [disabled] = true></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="model_footer">
+            <div class="row">
+                <div class="col_12 text-right">
+                    <button class="btn btn_red mr-3" (click)="deleteorder()">Delete Order</button>
+                    <button class="btn btn_lgblue" (click)="updateorder()">Update</button>
+                </div>
+            </div>
+        </div>    
+    </div>    
+</div>

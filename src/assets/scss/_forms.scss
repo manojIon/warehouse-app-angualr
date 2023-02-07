@@ -1,0 +1,98 @@
+@use "./src/assets/scss/colors" as c;
+
+.form{
+
+    &_element{
+
+        &:not(:last-child){
+            margin-bottom: 24px;
+        }
+    }
+
+    &_icon{
+        padding: 5px 0px 5px 5px;
+    }
+    
+    &_input{
+        display: flex;
+        border: 1px solid c.$dk_yellow;
+        border-radius: 3px;
+        text-transform: capitalize;
+        align-items: center;
+
+        & input, select {
+            height: 42px;
+            text-transform: capitalize;
+        }
+    
+        & input, select, textarea{
+            font-size: 18px;
+            border:none;
+            width:100%;
+            background: transparent;
+            padding: 10px;
+            
+    
+            &:focus{
+                border:none;
+                outline: none;
+            }
+        }
+
+        & textarea{
+            resize: none;
+        }
+    }
+
+    &_field{
+        width: 100%;
+    }
+
+    &_error_msg p{
+        font-size: 0.8rem;
+        color:c.$red;
+        font-weight: 500;
+        margin-top:5px;
+        margin-left: 5px;
+    }
+
+}
+
+input[type=date]{
+    text-transform: uppercase;
+}
+
+
+input:read-only, textarea:read-only {
+    background-color: rgba(c.$dk_grey, 0.2);
+}
+
+select:disabled{
+    background-color: rgba(c.$dk_grey, 0.2);
+    color:c.$black;
+    cursor: not-allowed;
+}
+
+.form-title{
+    font-size: 12px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color:c.$dk_blue;
+}
+
+option{
+    text-transform: capitalize;
+}
+
+
+::-webkit-input-placeholder { 
+    color: c.$black;
+  }
+  
+  :-ms-input-placeholder { 
+    color: c.$black;
+  }
+  
+  ::placeholder {
+    color: c.$black;
+}

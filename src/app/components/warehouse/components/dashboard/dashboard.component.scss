@@ -1,0 +1,72 @@
+@import "./src/assets/scss/colors";
+
+.card{
+
+    &_highlights{
+        position: relative;
+        min-height: 150px;
+        overflow: hidden;
+    }
+
+        &_blue{
+            background: rgba(25, 174, 240, 0.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        &_yellow{
+            background: rgba(255, 203, 33, 0.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        &_red{
+            background: rgba(248, 17, 17, 0.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        &_green{
+            background: rgba(65, 176, 110, 0.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        &_count{
+            position: absolute;
+            bottom: 0;
+            left: 0px;
+            width: calc(100% - 48px);
+            padding: 15px 30px;
+
+            & h1, h6{
+                font-weight: 500;
+            }
+
+            &_blue{
+                background: url('/assets/images/Vector-36.svg');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            &_yellow{
+                background: url('/assets/images/Vector-37.svg');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            &_red{
+                background: url('/assets/images/Vector-38.svg');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            &_green{
+                background: url('/assets/images/Vector-39.svg');
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+        }
+
+    &_icon{
+        position: absolute;
+        right: 10px;
+        top:10px;
+    }    
+}

@@ -1,0 +1,68 @@
+@use "./src/assets/scss/colors" as c;
+
+.desa{
+
+    &_model{
+        z-index: 9999;
+        right: 0;
+        position: fixed;
+        top: 0px;
+        background: rgba(c.$black, 0.5);
+        width: 100%;
+        height: 100%;
+        display: none;
+
+        &_header{
+            background: c.$md_yellow;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &_body{
+            max-height: 350px;
+            overflow-y:auto;
+        }
+
+        &_close{
+            cursor: pointer;
+        }
+
+        &_lg{
+            max-width: 900px;
+            background: c.$lg_grey;
+            margin: 0 auto;
+            z-index: 1;
+            position: relative;
+            top: 60px;
+        }
+
+        &_sm{
+            max-width: 600px;
+            background: c.$lg_grey;
+            margin: 0 auto;
+            z-index: 1;
+            position: relative;
+            top: 60px;
+        }
+        
+    }
+}
+
+.desa_model_container{
+    transition: all 0.2s;
+    animation: popup 0.2s linear;
+}
+
+@keyframes popup {
+    0%{
+        position: relative;
+        top:120px;
+    }
+
+    100%{
+        position: relative;
+        top:60px;
+    }
+}

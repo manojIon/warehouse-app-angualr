@@ -1,0 +1,36 @@
+<div class="disa_container">
+    <!-- header -->
+    <div>
+        <app-header></app-header>
+    </div>
+    <!-- /header -->
+    <div class="disa_flex app_view">
+    <!-- sidemenu starts -->
+        <div class="sidebar_menu" [ngClass]="expandview == true ? 'sidebar_menu_expand' : 'sidebar_menu_normal' ">
+          <ul >
+              <li *ngFor="let options of menulist" routerLinkActive="activeitem">
+                  <a routerLink="{{options.url}}" >
+                    <div class="disa_flex disa_flex_acenter">
+                        <div>
+                            <img src="/assets/images/icons/{{options.icon}}.svg">
+                        </div>
+                        <div *ngIf="expandview == false" class="ml-2 semibold">
+                            {{options.name}}
+                        </div>
+                    </div>  
+                 </a>
+              </li>
+          </ul>
+          <div class="expander" (click)="expandview = !expandview">
+              <img src="/assets/images/icons/expander.svg" alt="" srcset="">
+          </div>
+        </div>
+    <!-- sidemenu ends -->
+    <!-- menuview starts -->
+        <div class="menu_view" [ngClass]="expandview == true ? 'menu_view_expand' : 'menu_view_normal' ">
+            
+            <router-outlet></router-outlet>
+        </div>
+    <!-- menuview ends -->
+    </div>
+</div>

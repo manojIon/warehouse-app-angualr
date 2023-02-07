@@ -1,0 +1,304 @@
+<!-- breadcrumb -->
+<div class="breadcrumb text-right mb-3">
+    <h6 class="semibold">Products</h6>
+</div>
+<!-- /breadcrumb -->
+
+<!-- filters -->
+<div class="row">
+    <div class="col_6">
+        <div class="form_input">
+            <div class="form_field">
+                <input type="text" placeholder="Search by Product/Manufacture Name" [(ngModel)]="searchProduct">
+            </div>
+        </div>
+    </div>
+    <div class="col_4"></div>
+    <div class="col_4">
+        <div class="text-right">
+            <button class="btn btn_skyblue" (click)="addproductshow()">New Product</button>
+        </div>
+    </div>
+</div> 
+
+<!-- table -->
+<div class="row">
+    <!-- search table  -->
+    <div class="col_12">
+        <table class="mb-1" *ngIf="!(productsList.length == 0 || (productsList | inventory:searchProduct).length <= 0)">
+            <thead>
+                <tr>
+                    <th class="text-left">Product Name</th>
+                    <th class="text-center">Manufacture Name</th>
+                    <th class="text-center">Base Units</th>
+                    <th class="text-center">Current Units</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let data of productsList | paginate: { itemsPerPage: 8, currentPage: p } | inventory:searchProduct" >
+                    <td class="text-left">{{data.productname}}</td>
+                    <td class="text-center">{{data.manufacture}}</td>
+                    <td class="text-center semibold">{{data.base}}</td>
+                    <td class="text-center semibold" [ngStyle]="{color:data.currentUnit <= 10 ? '#cf2a2a' : '#4eb16b'}">{{data.currentUnit}}</td>
+                    <td class="text-center ">
+                        <span class="mr-2">
+                            <img src="/assets/images/icons/view.svg" title="view" alt="View" class="action_imgs" (click)="viewproduct(data.id)">
+                        </span>
+                        <span class="mr-2">
+                            <img src="/assets/images/icons/edit.svg" title="Edit" alt="Edit"  class="action_imgs" (click)="updateproduct(data.id)">
+                        </span>
+                        <span>
+                            <img src="/assets/images/icons/delete.svg" title="Delete" alt="Delete"  class="action_imgs" (click)="removeProduct(data.id)">
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end -->
+    <div class="col_12 text-center" *ngIf="(productsList.length == 0 || (productsList | inventory:searchProduct).length <= 0)">
+        <h4>Sorry, no data!</h4>
+    </div>
+    <!-- pagination -->
+    <div class="col_12" *ngIf="!(productsList.length == 0 || (productsList | inventory:searchProduct).length <= 0)">
+        <div class="row" >
+            <div class="col_12 text-right">
+                <span>
+                    <pagination-controls class="desa_pagination" previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- end -->
+</div>
+
+
+<!-- Add product model -->
+<div #addproductmodel class="desa_model"> 
+    <div class="desa_model_container desa_model_lg">
+        <div class="desa_model_header">
+            <h4>New Product Details</h4>
+            <div class="desa_model_close" (click)="addproducthide()">
+                <img src="/assets/images/close-icon.svg" alt="close" title="close">
+            </div>
+        </div>
+        <form [formGroup]="addproductform" (ngSubmit)="addproductDetails()">
+            <div class="desa_model_body">
+                <div class="row">
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Product Name" id="product name" formControlName="productname">
+                            </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="addproductform.controls['productname']?.touched && !addproductform.controls['productname']?.valid">This field is required</p>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Manufacturer Name" id="manufacture" formControlName="manufacture">
+                            </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="addproductform.controls['manufacture']?.touched && !addproductform.controls['manufacture']?.valid">This field is required</p>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Base Units" id="base units" formControlName="base">
+                                </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="addproductform.controls['base']?.touched && !addproductform.controls['base']?.valid">This field is required</p>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Current Units" id="current units" formControlName="currentUnit">
+                                </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="addproductform.controls['currentUnit']?.touched && !addproductform.controls['currentUnit']?.valid">This field is required</p>
+                        </div>
+                    </div>
+                    <div class="col_12">
+                        <div class="form_input">
+                            <div class="form_field">
+                            <textarea name="comments" id="Comments" rows="5" placeholder="Comments" formControlName="comments"></textarea>
+                            </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="addproductform.controls['comments']?.dirty && (!addproductform.controls['comments'].valid)">Characters should of minimum 3 and maximum 300</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer">
+                <div class="row">
+                    <div class="col_12 text-right">
+                        <button type="submit" class="btn btn_dkblue" [disabled]="!addproductform.valid">Add</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>    
+</div>
+
+<!-- View product model -->
+<div #viewproductmodel class="desa_model"> 
+    <div class="desa_model_container desa_model_lg">
+        <div class="desa_model_header">
+            <h4>New Product Details</h4>
+            <div class="desa_model_close" (click)="viewproducthide()">
+                <img src="/assets/images/close-icon.svg" alt="close" title="close">
+            </div>
+        </div>
+            <div class="desa_model_body">
+                <div class="row">
+                    <div class="col_3">
+                        <p class="form-title">Product Name</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Product Name" id="product name"  [value]="viewproductname" readonly>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Manufacture Name</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Manufacturer Name" id="manufacture" [value]="viewcompanyname" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Base Units</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Base Units" id="base units"  [value]="viewbaseunits" readonly>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Current Units</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Current Units" id="current units" [value]="viewcurrentunits" readonly>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col_12">
+                        <p class="form-title">Comments</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                            <textarea name="comments" id="Comments" rows="5" placeholder="Comments" [value]="viewcomments" readonly></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer">
+                <div class="row">
+                    <div class="col_12 text-right">
+                        <button class="btn btn_close" (click)="viewproducthide()">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>    
+</div>
+
+
+<!-- update product model -->
+<div #updateproductmodel class="desa_model"> 
+    <div class="desa_model_container desa_model_lg">
+        <div class="desa_model_header">
+            <h4>New Product Details</h4>
+            <div class="desa_model_close" (click)="updateproducthide()">
+                <img src="/assets/images/close-icon.svg" alt="close" title="close">
+            </div>
+        </div>
+            <div class="desa_model_body">
+                <div class="row">
+                    <div class="col_3">
+                        <p class="form-title">Product Name</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Product Name" id="product name"  [(ngModel)]="updateproductname" [value]="updateproductname">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Manufacture Name</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                <input type="text" placeholder="Manufacturer Name" id="manufacture" [(ngModel)]="updatecompanyname" [value]="updatecompanyname">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Base Units</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Base Units" id="base units"  [(ngModel)]="updatebaseunits" [value]="updatebaseunits">
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col_3">
+                        <p class="form-title">Current Units</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                                    <input type="number" placeholder="Current Units" id="current units" [(ngModel)]="updatecurrentunits" [value]="updatecurrentunits">
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col_12">
+                        <p class="form-title">Comments</p>
+                        <div class="form_input">
+                            <div class="form_field">
+                            <textarea name="comments" id="Comments" rows="5" placeholder="Comments" [(ngModel)]="updatecomments" [value]="updatecomments"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer">
+                <div class="row">
+                    <div class="col_12 text-right">
+                        <button class="btn btn_dkblue" (click)="updateproductdetails()">update</button>
+                    </div>
+                </div>
+            </div>
+    </div>    
+</div>
+
+<!-- delete product conformation model -->
+<div #deleteproductmodel class="desa_model"> 
+    <div class="desa_model_container desa_model_sm">
+        <div class="desa_model_header">
+        </div>
+            <div class="desa_model_body">
+                <div class="row">
+                    <div class="col_12">
+                        <p  style="font-size: 1.2rem;">Are you sure to delete product type <span class="bold" style="color:#ef4048">{{deleteproductname}}</span> supplied by the Manufacturer <span style="color:#ef4048" class="bold">{{deletemanufacterer}}</span>?</p>                        
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer">
+                <div class="row">
+                    <div class="col_12 text-right">
+                        <button class="btn btn_dkblue mr-2" (click)="deleteproductdetailsconfirm()">Yes</button>
+                        <button class="btn btn_close" (click)="deleteproductdetailshide()">NO</button>
+                    </div>
+                </div>
+            </div>
+    </div>    
+</div>

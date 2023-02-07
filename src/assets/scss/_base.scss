@@ -1,0 +1,159 @@
+@use "./src/assets/scss/colors" as c;
+
+*,
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 300;
+    font-family: 'Montserrat', sans-serif;
+    //font-size: 62.5%;
+}
+
+a{
+    text-decoration: none;
+}
+
+.disa {
+    &_container {
+        width: 100%;
+    }
+
+    &_flex {
+        display: flex;
+        width: 100%;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        position: relative;
+
+        &_gap{
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &_acenter{
+            align-items: center;
+        }
+
+        &jright{
+            justify-content: right;
+        }
+    }
+
+    &_fullheight{
+        min-height: 100vh;
+    }
+}
+
+.app_view{
+    min-height: calc(100vh - 77px);
+}
+
+.breadcrumb{
+    background-color: rgba(c.$dk_grey, 0.5);
+    padding:15px;
+    color:c.$dk_blue;
+}
+
+.row{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin:0 15px;
+    align-items: center;
+    
+    &:not(:last-child){
+        margin-bottom: 15px;
+    }
+
+    & [class^='col_']{
+        padding: 15px;
+    }
+
+    & .col_3{
+        flex:0 0 33.33%;
+    }
+    
+    & .col_4{
+        flex:0 0 25%;
+    }
+
+    & .col_6{
+        flex: 0 0 50%;
+    }
+
+    & .col_12{
+        flex: 0 0 100%;
+    }
+
+}
+
+.label{
+        padding: 3px 5px;
+        border-radius: 3px;
+        font-size: 0.7rem;
+        color:c.$white;
+        font-weight: 600;
+
+        &_red{
+            background-color: c.$red;
+        }
+
+        &_green{
+            background-color: c.$green;
+        }
+
+        &_orange{
+            background-color: c.$orange;
+        }
+
+        &_blue{
+            background-color: c.$md_blue;
+        }
+}
+
+.desa_pagination .ngx-pagination {
+
+    & a:hover, button:hover {
+        background: none;
+        border-radius: 50%;
+    }
+
+    & li a:not(:last-child) {
+        border:2px solid c.$lg_blue;
+    }
+    
+    & .current {
+        background: #adddf4;
+        border:2px solid c.$lg_blue;
+        border-radius: 50%;
+        color:c.$black;
+    }
+
+}
+
+.action_imgs{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    background-color: rgba(c.$dk_grey, 1);
+    float: left;
+    margin-bottom: 25px;
+    margin-left: 22px;
+    margin-top: 22px;
+    width: 10px;
+    overflow-y: auto;
+  }
+
+  ::-moz-scrollbar {
+    background-color: #b7b2b3;
+    float: left;
+    margin-bottom: 25px;
+    margin-left: 22px;
+    margin-top: 40px;
+    width: 5px;
+    overflow-y: auto;
+  }

@@ -1,0 +1,52 @@
+.login_page {
+    background: url('/assets/images/login-bgimg.jpg') no-repeat top;
+    background-size: cover;
+}
+
+.flex {
+    &_login_left {
+        flex: 0 0 60%;
+        display: flex;
+        align-items: center;
+        min-height: inherit;
+        padding-left: 90px;
+
+        & h1 {
+            flex: 1;
+            font-size: 4.5rem;
+            position: relative;
+            color: #fea804;
+            line-height: 72px;
+        }
+
+        & caption {
+            font-size: 2rem;
+            color: #ffffff;
+            display: block;
+            line-height: 42px;
+        }
+
+    }
+
+    &_login_right {
+        flex: 0 0 40%;
+    }
+
+    &_login_form {
+        background-color: #fff;
+        width: fit-content;
+        padding: 30px;
+        width: 60%;
+        border-radius: 3px;
+    }
+}
+
+.login_form_title{
+    color: #4081ca;
+}
+
+.login_footer {
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+}

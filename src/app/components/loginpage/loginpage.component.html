@@ -1,0 +1,55 @@
+<div class="disa_container" >
+    <div class="disa_flex disa_flex_acenter disa_fullheight login_page">
+        <div class="flex_login_left">
+            <h1>Desalisa’s <br>Store<br><caption class="bolder text-left">The one shop for all your stationary <br> supplies</caption></h1>
+            
+        </div>
+        <div class="flex_login_right">
+            <div class="flex_login_form" >
+                <div class="login_form_title">
+                    <h5 class="bolder mb-1">Login</h5>
+                    <p class="bold mb-3">Please login to continue</p>
+                </div>
+                <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+                    <div class="form_element">
+                        <div class="form_input">
+                            <div class="form_icon">
+                                <img src="/assets/images/icons/user.svg" alt="" srcset="">
+                            </div>
+                            <div class="form_field">
+                                <input type="text" id="username" placeholder="Username" formControlName="userName" style="text-transform:none">
+                            </div>
+                        </div>
+                        <div class="form_error_msg">
+                            <p *ngIf="loginForm.controls['userName']?.touched && !loginForm.controls['userName']?.valid">This field is required</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form_element">
+                    <div class="form_input">
+                        <div class="form_icon">
+                            <img src="/assets/images/icons/key.svg" alt="" srcset="">
+                        </div>
+                        <div class="form_field">
+                            <input type="password" id="password" placeholder="Password" formControlName="passWord">
+                        </div>
+                    </div>
+                    <div class="form_error_msg">
+                        <p *ngIf="loginForm.controls['passWord']?.touched && !loginForm.controls['passWord']?.valid">This field is required</p>
+                    </div>
+                    </div>
+                    <!-- [ngClass]="username == 'apple' ? '' : 'btn_disabled'" -->
+                    <div class="text-right">
+                        <button type="submit" class="btn btn_dkblue" [disabled]="!loginForm.valid">Login</button>
+                    </div>
+                    <div class="form_error_msg text-center mt-2" *ngIf="loginerrorMesg">
+                        <p>Please check your login credentials</p>
+                    </div>
+                </form>
+            </div>
+            <div class="login_footer">
+                <p class="semibold">@ 2022 Desalisa Store</p>
+            </div>
+        </div>
+    </div>
+</div>

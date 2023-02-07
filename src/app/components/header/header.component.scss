@@ -1,0 +1,26 @@
+.header{
+    &_container{
+        padding: 10px 15px;
+        background: #0f55a1;
+    }
+    &_profile{
+            position: relative;
+        & img{
+            width: 48x;
+            height: 48px;
+            border:2px solid #fea804;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        &_options{
+            position: absolute;
+            padding: 5px 15px;
+            color: #fff;
+            top: 50px;
+            background: #232527;
+            right: 5px;
+            z-index: 1;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+<div class="disa_container header_container">
+    <div class="disa_flex disa_flex_gap">
+        <div class="header_logo">
+            <img src="/assets/images/logo.svg" alt="">
+        </div>
+        <div class="header_profile">
+            <div class="header_profile_img">
+                <img src="/assets/images/profilepic.svg" alt="" (click)="$event.stopPropagation();showlogout = !showlogout">
+            </div>
+            <div class="header_profile_options" *ngIf="showlogout">
+                <p (click)="logout()">logout</p>
+            </div>
+        </div>
+    </div>
+</div>
